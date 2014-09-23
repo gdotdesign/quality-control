@@ -3,6 +3,7 @@ Quality Control
 [![Build Status](https://travis-ci.org/gdotdesign/quality-control.svg?branch=master)](https://travis-ci.org/gdotdesign/quality-control)
 [![Code Climate](https://codeclimate.com/github/gdotdesign/quality-control/badges/gpa.svg)](https://codeclimate.com/github/gdotdesign/quality-control)
 [![Test Coverage](https://codeclimate.com/github/gdotdesign/quality-control/badges/coverage.svg)](https://codeclimate.com/github/gdotdesign/quality-control)
+[![Inline docs](http://inch-ci.org/github/gdotdesign/quality-control.png?branch=master)](http://inch-ci.org/github/gdotdesign/quality-control)
 
 Quality Control is a ruby gem that unifies **continous integration tasks** (linting, test running, coverage reporting) into reusable **rake tasks**, currently supports the following [plugins.](#plugins)
 

@@ -1,2 +1,5 @@
 LineLength:
   Enabled: false
+
+SingleLineBlockParams:
+  Enabled: false

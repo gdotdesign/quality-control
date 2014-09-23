@@ -25,7 +25,7 @@ module QualityControl
   # Opal RSpec plugin
   module OpalRspec
     class << self
-      attr_writer :files, :treshold
+      attr_writer :files, :threshold
 
       # Files attr_reader with default value
       #
@@ -37,8 +37,8 @@ module QualityControl
       # The threshold for faliure.
       #
       # @return [Integer] The threshold
-      def treshold
-        @treshold ||= 0
+      def threshold
+        @threshold ||= 0
       end
     end
 
@@ -110,5 +110,5 @@ task 'opal:rspec:coverage' do
     Rake::Task['opal:rspec:coverage:runner'].invoke
   end
   coverage = output.match(/Coverage:\s(\d+)%/)[1].to_i
-  fail if coverage < QualityControl::OpalRspec.treshold
+  fail if coverage < QualityControl::OpalRspec.threshold
 end

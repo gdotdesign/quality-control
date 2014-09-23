@@ -4,13 +4,13 @@ module QualityControl
   # Yard plugin
   module Yard
     class << self
-      attr_writer :treshold
+      attr_writer :threshold
 
       # The threshold for faliure.
       #
       # @return [Integer] The threshold
-      def treshold
-        @treshold ||= 0
+      def threshold
+        @threshold ||= 0
       end
 
       # Calculates the coverage
@@ -52,6 +52,6 @@ namespace :documentation do
   desc 'Check documentation coverage'
   task :coverage do
     Rake::Task['documentation:generate'].invoke
-    fail if QualityControl::Yard.coverage < QualityControl::Yard.treshold
+    fail if QualityControl::Yard.coverage < QualityControl::Yard.threshold
   end
 end

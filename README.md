@@ -37,6 +37,22 @@ Quality Control defines a rake task called `ci` which runs all the tasks that ar
 The `✘` before the tasks means it has failed, the `✔` means it has succeeded. If any of the tasks fail the exit code will be **1** else it will be **0**. That means that you can hook it up into your **CI Server**.
 
 ## Plugins
+### Rubycritic
+This plugin provides **static code analysis coverage** via [Rubycritic](https://github.com/whitesmith/rubycritic):
+```ruby
+require 'quality_control/rubycritic'
+
+# The directories to run rubocop on.
+QualityControl::Rubycritic.directories += %w(lib)
+
+# The threshold for the score
+QualityControl::Rubycritic.score_threshold = 100
+
+# The threshold for the rating A-F
+QualityControl::Rubycritic.rating_threshold = 'B'
+```
+Provies tasks `rubycritic:generate`, `rubycritic:coverage`
+
 ### RuboCop
 This plugin provides **Ruby** language linting via [RuboCop](https://github.com/bbatsov/rubocop):
 ```ruby
@@ -47,7 +63,7 @@ QualityControl::Rubocop.directories += %w(lib)
 ```
 Provies the task `syntax:ruby`
 
-### SCSS 
+### SCSS
 This plugin provides **SCSS** language linting via [SCSS-Lint](https://github.com/causes/scss-lint):
 ```ruby
 require 'quality_control/scss'

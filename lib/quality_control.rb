@@ -8,10 +8,16 @@ module QualityControl
   class << self
     attr_writer :tasks
 
+    # Tasks attr_reader for default value
+    #
+    # @return [Array] The defined tasks or an empty array.
     def tasks
       @tasks ||= []
     end
 
+    # Sliences the given stream.
+    #
+    # @param stream [Stream] The stream
     def silence_stream(stream)
       old_stream = stream.dup
       null = RbConfig::CONFIG['host_os'] =~ /mswin|mingw/ ? 'NUL:' : '/dev/null'
@@ -22,18 +28,21 @@ module QualityControl
       stream.reopen old_stream
     end
 
+    # Captures the given stream into a string
+    #
+    # @param stream [Stream] The stream
+    #
+    # @return [String] The output
     def capture_stream(stream)
-      stream = stream.to_s
-      captured_stream = Tempfile.new(stream)
-      stream_io = eval("$#{stream}")
-      origin_stream = stream_io.dup
-      stream_io.reopen(captured_stream)
+      captured_stream = Tempfile.new SecureRandom.uuid
+      origin_stream = stream.dup
+      stream.reopen(captured_stream)
       yield
-      stream_io.rewind
+      stream.rewind
       return captured_stream.read
     ensure
       captured_stream.unlink
-      stream_io.reopen(origin_stream)
+      stream.reopen(origin_stream)
     end
   end
 end

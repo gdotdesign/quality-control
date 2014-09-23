@@ -1,8 +1,12 @@
 module QualityControl
+  # Rubocop plugin
   module Rubocop
     class << self
       attr_writer :directories
 
+      # Directories attr_reader with default value
+      #
+      # @return [Array] The array of directories to run rubocop.
       def directories
         @directories ||= []
       end

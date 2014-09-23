@@ -9,7 +9,7 @@ Quality Control is a ruby gem that unifies **continous integration tasks** (lint
 ## Quick Setup
 Just add it to your gem file:
 ```ruby
-gem 'quality_control'
+gem 'quality_control', github: 'gdotdesign/quality_control'
 ```
 
 Then in your **Rakefile** require it and other plugins that you need:

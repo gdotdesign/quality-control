@@ -1,3 +1,4 @@
+require 'rake'
 require 'colorize'
 
 # Record Rake task metadata for names

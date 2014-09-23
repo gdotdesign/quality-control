@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
   gem.homepage = ''
 
   gem.add_dependency('rake')
+  gem.add_dependency('opal-rspec', '0.3.0.beta3')
   gem.add_dependency('rubocop', '~> 0.25.0')
   gem.add_dependency('rubycritic', '~> 1.1.1')
   gem.add_dependency('colorize', '~> 0.7.3')

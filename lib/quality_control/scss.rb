@@ -15,7 +15,7 @@ module QualityControl
 end
 
 namespace :syntax do
-  desc 'Run a Ruby syntax check'
+  desc 'Run a SCSS syntax check'
   task :scss do
     verbose false
     sh "scss-lint #{QualityControl::SCSS.directories.join ' '}"

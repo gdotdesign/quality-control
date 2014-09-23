@@ -5,13 +5,13 @@ Gem::Specification.new do |gem|
   gem.version = QualityControl::VERSION
   gem.date    = Date.today.to_s
 
-  gem.summary = "an awesome gem"
-  gem.description = "extended description"
+  gem.summary = "Quality Control"
+  gem.description = "A gem for running CI tasks like a boss."
   gem.files = `git ls-files`.split($RS)
 
-  gem.authors  = ['']
-  gem.email    = ''
-  gem.homepage = ''
+  gem.authors  = ['Szikszai Gusztáv']
+  gem.email    = 'cyber.gusztav@gmail.com'
+  gem.homepage = 'https://github.com/gdotdesign/quality-control'
 
   gem.add_dependency('rake')
   gem.add_dependency('opal-rspec', '0.3.0.beta3')

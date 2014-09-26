@@ -15,9 +15,9 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency('rake')
   gem.add_runtime_dependency('opal-rspec', '0.3.0.beta3')
-  gem.add_runtime_dependency('rubocop', '~> 0.25.0')
-  gem.add_runtime_dependency('rubycritic', '~> 1.1.1')
+  gem.add_runtime_dependency('rubocop')
+  gem.add_runtime_dependency('rubycritic')
   gem.add_runtime_dependency('colorize', '~> 0.7.3')
-  gem.add_runtime_dependency('scss-lint', '~> 0.24.1')
-  gem.add_runtime_dependency('yard', '~> 0.8.7.4')
+  gem.add_runtime_dependency('scss-lint')
+  gem.add_runtime_dependency('yard')
 end

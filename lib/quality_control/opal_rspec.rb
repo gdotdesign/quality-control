@@ -102,6 +102,7 @@ end
 Opal::RSpec::RakeTask.new('opal:rspec')
 Opal::RSpec::RakeTask.new('opal:rspec:coverage:runner') do |server|
   server.sprockets.register_postprocessor('application/javascript', QualityControl::OpalRspec::PostProcessor)
+  server.debug = true
 end
 
 desc 'Check opal specs coverage'

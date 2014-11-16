@@ -9,6 +9,7 @@ def simpleCoverage(map)
 
     statements = Native(value)[map]
     statements.each do |st,count|
+      next if `value.fnMap[#{st}].name` =~ /^\$/
       stats += 1
       fullStats += 1
       if count.to_i > 0

@@ -44,7 +44,7 @@ namespace :rubycritic do
     rating = analysed_files.map { |file| file.rating.to_s }.max
     score = analysed_files.reduce([]) { |memo, file|  memo + file.smells }.map { |smell| smell.score || 0 }.max
     puts "Maximum score: #{score}, Minimum rating: #{rating}"
-    fail if score > QualityControl::Rubycritic.score_threshold
+    fail if score.to_i > QualityControl::Rubycritic.score_threshold
     fail if rating > QualityControl::Rubycritic.rating_threshold
   end
 end

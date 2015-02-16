@@ -3,3 +3,9 @@ LineLength:
 
 SingleLineBlockParams:
   Enabled: false
+
+MethodLength:
+  Enabled: false
+
+AbcSize:
+  Enabled: false

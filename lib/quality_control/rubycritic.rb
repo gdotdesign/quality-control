@@ -1,4 +1,6 @@
-require 'rubycritic'
+require 'rubycritic/configuration'
+require 'rubycritic/source_control_systems/base'
+require 'rubycritic/analysers_runner'
 
 module QualityControl
   # Rubycritic Plugin
@@ -39,8 +41,9 @@ namespace :rubycritic do
 
   desc 'Check Rubycritic coverage'
   task :coverage do
-    @rubycritic = ::Rubycritic::Orchestrator.new
-    analysed_files = @rubycritic.critique QualityControl::Rubycritic.directories
+    Rubycritic::Config.set(mode: :ci)
+    Rubycritic::Config.source_control_system = Rubycritic::SourceControlSystem::Base.create
+    analysed_files = ::Rubycritic::AnalysersRunner.new(QualityControl::Rubycritic.directories).run
     rating = analysed_files.map { |file| file.rating.to_s }.max
     score = analysed_files.reduce([]) { |memo, file|  memo + file.smells }.map { |smell| smell.score || 0 }.max
     puts "Maximum score: #{score}, Minimum rating: #{rating}"

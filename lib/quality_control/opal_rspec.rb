@@ -41,67 +41,73 @@ module QualityControl
         @threshold ||= 0
       end
     end
-
-    # Instrumenter Processor
-    class PostProcessor < Sprockets::Processor
-      # Returns the context of the processor
-      #
-      # @return [Object] The context
-      def context
-        return @context if @context
-        code = <<-EOF
-          var window = {}; #{vendor}
-          var Instrument = function(data,file){
-            var instrumenter = new window.Instrumenter(),
-            changed = instrumenter.instrumentSync(data,file);
-            return '(function(){ ' + changed + '})();'
-          }
-        EOF
-        @context = ExecJS.compile code
-      end
-
-      # Instruments a file
-      # @param data [String] The data
-      # @param file [String] The file
-      def instrument(data, file)
-        context.call 'Instrument', data, file
-      end
-
-      # Runs on files that needed to be prcessed
-      #
-      # @param _context [Object] The context
-      # @param _ [Object] Arg2
-      def evaluate(_context, _)
-        first    = Pathname.new file
-        second   = Pathname.new Dir.pwd
-        relative = first.relative_path_from(second).to_s
-
-        if relative =~ QualityControl::OpalRspec.files
-          instrument data, relative
-        else
-          data
-        end
-      end
-
-      private
-
-      # Returns the files that are needed for
-      # instrumenting js files.
-      #
-      # @return [String] The body of the files
-      def vendor
-        return @vendor if @vendor
-        @vendor = %w(esprima escodegen istanbul).map do |file|
-          File.read File.expand_path("../../../vendor/#{file}.js", __FILE__).untaint
-        end.join ''
-      end
-    end
   end
 end
 
 Opal::RSpec::RakeTask.new('opal:rspec')
 Opal::RSpec::RakeTask.new('opal:rspec:coverage:runner') do |server|
-  server.sprockets.register_postprocessor('application/javascript', QualityControl::OpalRspec::PostProcessor)
+  module Opal
+    module BuilderProcessors
+      # Instrumenter Processor
+      class RubyProcessor < Opal::BuilderProcessors::Processor
+        # Returns the context of the processor
+        #
+        # @return [Object] The context
+        def context
+          return @context if @context
+          code = <<-EOF
+            var window = {}; #{vendor}
+            var Instrument = function(data,file){
+              var instrumenter = new window.Instrumenter(),
+              changed = instrumenter.instrumentSync(data,file);
+              return '(function(){ ' + changed + '})();'
+            }
+          EOF
+          @context = ExecJS.compile code
+        end
+
+        # Instruments a file
+        # @param data [String] The data
+        # @param file [String] The file
+        def instrument(data, file)
+          context.call 'Instrument', data, file
+        end
+
+        # Runs on files that needed to be prcessed
+        def source
+          file_path = PathReader.new.expand(filename)
+          relative = if file_path
+                       first    = Pathname.new file_path.to_s
+                       second   = Pathname.new Dir.pwd
+                       first.relative_path_from(second).to_s
+                     else
+                       ''
+                     end
+
+          if relative =~ QualityControl::OpalRspec.files
+            puts filename
+            instrument compiled.result, relative
+          else
+            compiled.result
+          end
+        end
+
+        private
+
+        # Returns the files that are needed for
+        # instrumenting js files.
+        #
+        # @return [String] The body of the files
+        def vendor
+          return @vendor if @vendor
+          @vendor = %w(esprima escodegen istanbul).map do |file|
+            File.read File.expand_path("../../../vendor/#{file}.js", __FILE__).untaint
+          end.join ''
+        end
+      end
+    end
+  end
+
   server.debug = true
 end
 

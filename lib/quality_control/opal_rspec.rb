@@ -85,7 +85,6 @@ Opal::RSpec::RakeTask.new('opal:rspec:coverage:runner') do |server|
                      end
 
           if relative =~ QualityControl::OpalRspec.files
-            puts filename
             instrument compiled.result, relative
           else
             compiled.result

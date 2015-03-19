@@ -85,7 +85,7 @@ Opal::RSpec::RakeTask.new('opal:rspec:coverage:runner') do |server|
                      end
 
           if relative =~ QualityControl::OpalRspec.files
-            instrument compiled.result, relative
+            instrument compiled.result, filename
           else
             compiled.result
           end
@@ -106,7 +106,7 @@ Opal::RSpec::RakeTask.new('opal:rspec:coverage:runner') do |server|
       end
     end
   end
-
+  Opal::Processor.dynamic_require_severity = :ignore
   server.debug = true
 end
 

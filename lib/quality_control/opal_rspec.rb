@@ -44,7 +44,10 @@ module QualityControl
   end
 end
 
-Opal::RSpec::RakeTask.new('opal:rspec')
+Opal::RSpec::RakeTask.new('opal:rspec') do
+  Opal::Processor.dynamic_require_severity = :ignore
+end
+
 Opal::RSpec::RakeTask.new('opal:rspec:coverage:runner') do |server|
   module Opal
     module BuilderProcessors

@@ -7,13 +7,17 @@ Rake::TaskManager.record_task_metadata = true
 # Quality Control module
 module QualityControl
   class << self
-    attr_writer :tasks
+    attr_writer :tasks, :after_task_callback
 
     # Tasks attr_reader for default value
     #
     # @return [Array] The defined tasks or an empty array.
     def tasks
       @tasks ||= []
+    end
+
+    def after_task_callback
+      @after_task_callback
     end
 
     # Sliences the given stream.
@@ -48,22 +52,22 @@ module QualityControl
   end
 end
 
-desc 'Run continous integation tasks'
-task :ci do
-  fail = false
-  QualityControl.tasks.each do |key|
-    name = Rake::Task[key].full_comment
-    begin
-      QualityControl.silence_stream STDOUT do
-        QualityControl.silence_stream STDERR do
-          Rake::Task[key].invoke
+  desc 'Run continous integation tasks'
+  task :ci do
+    fail = false
+    QualityControl.tasks.each do |key|
+      name = Rake::Task[key].full_comment
+      begin
+        QualityControl.silence_stream STDOUT do
+          QualityControl.silence_stream STDERR do
+            Rake::Task[key].invoke
+          end
         end
+        puts '✔'.green + " - #{name}"
+      rescue
+        puts '✘'.red + " - #{name}"
+        fail = true
       end
-      puts '✔'.green + " - #{name}"
-    rescue
-      puts '✘'.red + " - #{name}"
-      fail = true
     end
-  end
   exit fail ? 1 : 0
 end

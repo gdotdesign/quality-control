@@ -111,5 +111,6 @@ task 'opal:rspec:coverage' do
     Rake::Task['opal:rspec:coverage:runner'].invoke
   end
   coverage = output.match(/Coverage:\s(\d+)%/)[1].to_i
+  QualityControl.after_task_callback.call('opal:rspec:coverage', coverage) rescue nil
   fail if coverage < QualityControl::OpalRspec.threshold
 end

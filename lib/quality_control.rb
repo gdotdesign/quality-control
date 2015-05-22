@@ -52,22 +52,22 @@ module QualityControl
   end
 end
 
-  desc 'Run continous integation tasks'
-  task :ci do
-    fail = false
-    QualityControl.tasks.each do |key|
-      name = Rake::Task[key].full_comment
-      begin
-        QualityControl.silence_stream STDOUT do
-          QualityControl.silence_stream STDERR do
-            Rake::Task[key].invoke
-          end
+desc 'Run continous integation tasks'
+task :ci do
+  fail = false
+  QualityControl.tasks.each do |key|
+    name = Rake::Task[key].full_comment
+    begin
+      QualityControl.silence_stream STDOUT do
+        QualityControl.silence_stream STDERR do
+          Rake::Task[key].invoke
         end
-        puts '✔'.green + " - #{name}"
-      rescue
-        puts '✘'.red + " - #{name}"
-        fail = true
       end
+      puts '✔'.green + " - #{name}"
+    rescue
+      puts '✘'.red + " - #{name}"
+      fail = true
     end
+  end
   exit fail ? 1 : 0
 end

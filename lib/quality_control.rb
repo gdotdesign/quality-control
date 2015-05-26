@@ -7,6 +7,7 @@ Rake::TaskManager.record_task_metadata = true
 # Quality Control module
 module QualityControl
   class << self
+    attr_accessor :after_task_callback
     attr_writer :tasks
 
     # Tasks attr_reader for default value

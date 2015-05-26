@@ -52,6 +52,9 @@ namespace :documentation do
   desc 'Check documentation coverage'
   task :coverage do
     Rake::Task['documentation:generate'].invoke
-    fail if QualityControl::Yard.coverage < QualityControl::Yard.threshold
+    coverage = QualityControl::Yard.coverage
+    callback = QualityControl.after_task_callback
+    callback.call('documentation:coverage', coverage) if callback
+    fail if coverage < QualityControl::Yard.threshold
   end
 end

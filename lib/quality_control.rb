@@ -7,17 +7,14 @@ Rake::TaskManager.record_task_metadata = true
 # Quality Control module
 module QualityControl
   class << self
-    attr_writer :tasks, :after_task_callback
+    attr_accessor :after_task_callback
+    attr_writer :tasks
 
     # Tasks attr_reader for default value
     #
     # @return [Array] The defined tasks or an empty array.
     def tasks
       @tasks ||= []
-    end
-
-    def after_task_callback
-      @after_task_callback
     end
 
     # Sliences the given stream.

@@ -7,7 +7,7 @@ def simple_coverage(map)
 
   coverage = Native(`window.__coverage__`)
   coverage.each do |file, value|
-    Fron::Request.new("/assets/#{file}.map").get do |resp|
+    Fron::Request.new("/__OPAL_SOURCE_MAPS__/#{file}.self.map").get do |resp|
       source_map = SourceMap::Map.from_json(resp.body)
       hit_map = {}
       s_map = {}

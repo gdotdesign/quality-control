@@ -84,7 +84,7 @@ QualityControl::Yard.threshold = 98
 Provides tasks `documentation:generate` and `documentation:coverage`
 
 ### Opal RSpec
-This plugin provides **test coverage** for frontend Ruby files via [Opal](http://opalrb.org/) and [Opal RSpec](https://github.com/opal/opal-rspec):
+This plugin provides **test coverage** for frontend Ruby files via [Opal](https://opalrb.com/) and [Opal RSpec](https://github.com/opal/opal-rspec):
 ```ruby
 require 'quality_control/opal_rspec'
 
